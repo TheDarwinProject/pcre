@@ -71,13 +71,11 @@
 # 2021-06-14 PH applied Wolfgang Stöggl's patch for generating pcre-config and
 #            libpcre*.pc files (Bugzilla #2583)
 
+# Increased minimum to 3.10 to support GNUInstallDirs. Set policy
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
+
 PROJECT(PCRE C CXX)
-
-# Increased minimum to 2.8.5 to support GNUInstallDirs. Set policy
-# CMP0026 to avoid warnings for the use of LOCATION in GET_TARGET_PROPERTY.
-
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
-CMAKE_POLICY(SET CMP0026 OLD)
 
 # For FindReadline.cmake. This was changed to allow setting CMAKE_MODULE_PATH
 # on the command line.
@@ -837,10 +835,10 @@ IF(PCRE_BUILD_TESTS)
   # exes in Debug location tested by the RunTest shell script
   # via "make test"
   IF(PCRE_BUILD_PCREGREP)
-    GET_TARGET_PROPERTY(PCREGREP_EXE pcregrep DEBUG_LOCATION)
+    GET_TARGET_PROPERTY(PCREGREP_EXE pcregrep $<DEBUG_LOCATION>)
   ENDIF(PCRE_BUILD_PCREGREP)
 
-  GET_TARGET_PROPERTY(PCRETEST_EXE pcretest DEBUG_LOCATION)
+  GET_TARGET_PROPERTY(PCRETEST_EXE pcretest $<DEBUG_LOCATION>)
 
 # =================================================
   # Write out a CTest configuration file
